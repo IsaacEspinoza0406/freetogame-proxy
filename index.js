@@ -20,6 +20,17 @@ app.get('/games', async (req, res) => {
     }
 });
 
+app.get('/games/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.get(`${process.env.EXTERNAL_API_URL}/game?id=${id}`);
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error al buscar el juego:", error.message);
+        res.status(500).json({ error: 'Error al obtener detalles del juego.' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Servicio corriendo en http://localhost:${PORT}`);
 });
